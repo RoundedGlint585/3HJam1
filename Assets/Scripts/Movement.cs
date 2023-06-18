@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Movement : MonoBehaviour
 {
@@ -40,6 +41,12 @@ public class Movement : MonoBehaviour
 
     private float horizontal;
     private float vertical;
+
+    [SerializeField]
+    private float endGameTime = 36;
+
+    private float endGameTimer = 0;
+
     Rigidbody2D rb;
 
     CircleCollider2D collider;
@@ -68,6 +75,11 @@ public class Movement : MonoBehaviour
         shiftTimer += Time.deltaTime;
         shiftTimer = Mathf.Min(shiftTimer, shiftCooldown);
 
+        endGameTimer += Time.deltaTime;
+        if (endGameTimer >= endGameTime)
+        {
+            SceneManager.LoadScene(1);
+        }
 
         spriteRenderer.color = Vector4.Lerp(colorBeforeShift, colorAfterShift, 1 - shiftTimer / shiftCooldown);
         rb.mass = Mathf.Lerp(massOnStart, massOnShift, 1 - shiftTimer / shiftCooldown);
@@ -75,7 +87,7 @@ public class Movement : MonoBehaviour
         {
             rb.mass = massOnShift;
             shiftTimer = 0.0f;
-            rb.velocity += rb.velocity.normalized * shiftVelocityScale;
+            rb.velocity += rb.velocity.normalized * shiftVelocityScale * (shiftCooldown - shiftTimer);
         }
     }
     

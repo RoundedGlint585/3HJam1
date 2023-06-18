@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Threading;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class BulletBehaviour : MonoBehaviour
 {
@@ -25,6 +26,7 @@ public class BulletBehaviour : MonoBehaviour
         if (collision.transform.CompareTag("Player"))
         {
             Destroy(collision.transform.gameObject);
+            StartCoroutine(Restart(1));
             //rb.mass = 0.0001f;
         }
     }
@@ -36,5 +38,11 @@ public class BulletBehaviour : MonoBehaviour
         {
             this.transform.position += direction.normalized * speed;
         }
+    }
+
+    IEnumerator Restart(int seconds)
+    {
+        yield return new WaitForSeconds(seconds);
+        SceneManager.LoadScene(0);
     }
 }

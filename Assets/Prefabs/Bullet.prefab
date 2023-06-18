@@ -99,7 +99,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   direction: {x: 1, y: -1, z: 0}
-  speed: 0.03
+  speed: 0.02
   delay: 1
 --- !u!58 &1046823106411784995
 CircleCollider2D:
